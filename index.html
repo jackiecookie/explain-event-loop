@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <div class="wapper">
+      <div class="js-source">
+        <div class="line-highlight"></div>
+        <div class="event-loop-commentary">
+          <div class="event-loop-commentary-item"></div>
+        </div>
+        <textarea name="" class="code" id="code"></textarea>
+      </div>
+      <table class="event-loop-walkthrough">
+        <tbody>
+          <tr class="task-queue">
+            <th>Tasks</th>
+            <td>
+              <div class="event-loop-items">
+                <div class="event-loop-rail" id="taskqueue"></div>
+              </div>
+            </td>
+          </tr>
+          <tr class="microtask-queue">
+            <th>Microtasks</th>
+            <td>
+              <div class="event-loop-items" id="microtaskqueue"></div>
+            </td>
+          </tr>
+          <tr class="js-stack">
+            <th>JS stack</th>
+            <td>
+              <div class="event-loop-items" id="jsstack"></div>
+            </td>
+          </tr>
+          <tr class="event-loop-log">
+            <th>Log</th>
+            <td>
+              <div class="event-loop-items" id="consolelog"></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="event-loop-controls">
+        <svg viewBox="0 0 5 2">
+          <path d="M2,0 L2,2 L0,1 z"></path>
+          <path d="M3,0 L5,1 L3,2 z"></path>
+          <path class="prev-btn" d="M0,0 H2.5V2H0z"></path>
+          <path class="next-btn" d="M2.5,0 H5V2H2.5z"></path>
+        </svg>
+      </div>
+    </div>
+  </body>
+  <script src="babel-to-go.js"></script>
+  <script src="index.js"></script>
+</html>

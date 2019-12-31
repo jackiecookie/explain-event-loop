@@ -1,0 +1,10 @@
+{
+  "name": "explain-event-loop",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:jackiecookie/explain-event-loop.git",
+  "author": "潘迪海 <2711002357@qq.com>",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {}
+}
