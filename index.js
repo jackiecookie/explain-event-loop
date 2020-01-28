@@ -120,20 +120,27 @@ nextBtn.onclick = function () {
 
     let code = codeText.value;
 
-    code = `
-    var promise1 = new Promise(function(resolve, reject) {
-        setTimeout(function() {
-          resolve('foo');
-        }, 300);
-      });
-
-      promise1.then(function(value) {
-        console.log(value);
-        // expected output: "foo"
-      });
-
-      console.log(promise1);
-      // expected output: [object Promise]`
+    // code = `
+    // async function async1() {
+    //     console.log(1);
+    //     const result = await async2();
+    //     console.log(3);
+    //   }
+      
+    //   async function async2() {
+    //     console.log(2);
+    //   }
+      
+    //   Promise.resolve().then(() => {
+    //     console.log(4);
+    //   });
+      
+    //   setTimeout(() => {
+    //     console.log(5);
+    //   });
+      
+    //   async1();
+    //   console.log(6);`
 
     let ast = babylon.parse(code);
 
@@ -278,7 +285,6 @@ nextBtn.onclick = function () {
             let type = TASKS;
             //首先检查有没有微任务需要执行
             if (microtasksQueen.length) {
-                debugger
                 type = MICROTASKS
                 task = microtasksQueen[0];
             } else if (tasksQueen.length) {
@@ -292,7 +298,8 @@ nextBtn.onclick = function () {
             let fream;
             let args = task.args;
             if (fn) {
-                fn.traverse(getVistor(`${task.name}${fn.start}${fn.end}`, (f) => {
+                debugger
+                fn.traverse(getVistor(`${task.name}${fn.node.start}${fn.node.end}`, (f) => {
                     fream = f;
                     fream.type = MICROTASKS
                 }, args))
@@ -395,6 +402,7 @@ nextBtn.onclick = function () {
                 msg: 'setTimeOut,将callback放入tasksQueen队尾',
                 then: function () {
                     let callContext = path.getFunctionParent();
+                    debugger
                     //SETTIMEOUT put to call stack bottom 
                     tasksQueen.reactivePush({
                         name: 'setTimeout callback',
@@ -411,7 +419,8 @@ nextBtn.onclick = function () {
                 loc: callee.loc,
                 msg: `${callee.object.name}.${callee.property.name},将then callback放入微任务`,
                 then: function () {
-                    if (!types.isIdentifier(calleePath.node.object)) {
+                    debugger
+                    if (types.isIdentifier(calleePath.node.object)) {
                         //put then call back into microtask.
                         let key = getThenKey(calleePath.node);
                         let then = thenDep.get(key);
@@ -434,7 +443,6 @@ nextBtn.onclick = function () {
                 let parentFn = calleePath.getFunctionParent();
                 if (!types.isProgram(parentFn) && parentFn.node.params.length > 0) {
                     let index = parentFn.node.params.findIndex(param => param.name == node.name);
-                    debugger
                     if (index > -1 && contextArgs.length > index) {
                         consoleVal = contextArgs[index].node.value;
                     }
@@ -468,7 +476,6 @@ nextBtn.onclick = function () {
                         let callee = parentPromise.get('callee');
                         let key = getThenKey(callee.node);
                         let args = calleePath.parentPath.get('arguments');
-                        debugger
                         callDep(key, null, args);
                     } else {
                         //push to js stack 
